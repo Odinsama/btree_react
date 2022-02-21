@@ -4,26 +4,6 @@ export const createNode = (maxValues = 3, values = [], children = []) => ({
     values,
 })
 
-export function search(node, value){
-    if(!node.children.length) return node
-    for (let i = 0; i < node.values.length; i++) {
-        if(value < node.values[i]) return node.search(node.children[i], value)
-    }
-    // if the value is not smaller than (or equal to) any of our values it is greater than the greatest value
-    return node.search(node.children[node.values.length], value)
-}
-
-export function remove(node, value){
-    if(!node.children.length) {
-        let index = node.values.indexOf(value)
-        if(index === -1) return // value not found
-        if(node.values.length === 1) return node // return node to indicate it should be deleted
-        node.values.splice(index, 1) // remove value
-
-
-    }
-
-}
 
 export function insert(node, value){
     let {maxValues} = node

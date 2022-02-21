@@ -1,6 +1,6 @@
 import {useRef, useState} from "react";
 import {BtreeNode} from "./BtreeNode";
-import {createNode, insert, search} from "./createNode";
+import {createNode, insert} from "./createNode";
 /**
  * rules of b-trees:
  * the root has at least two children if it is not a leaf node
