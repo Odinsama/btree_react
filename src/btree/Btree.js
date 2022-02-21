@@ -12,22 +12,34 @@ import {createNode, insert, search} from "./createNode";
 export let Btree = (props) => {
     const inputRef = useRef(null)
     const [data, setData] = useState(props.data) // keys in their inserted order
-    const onButtonClick = () => {
-        const d = inputRef.current.value
+    const onButtonClickAdd = () => {
+        const d = parseInt(inputRef.current.value)
         // if the input is empty or this value already exists in the Btree, the button does nothing
         if(d == null || data.includes(d)) return
         const newData = [...data, d]
         setData(newData)
     }
+    let onButtonClickRemove = () => {
+        const d = parseInt(inputRef.current.value)
+        let index = data.indexOf(d)
+        if(d == null || index === -1) return
+        let newData = data.filter(datum => d !== datum)
+        setData(newData)
+    }
+    let [maxValues] = useState(3)
     const arrangeNodes = () => {
-        let root = createNode(3)
+        let root = createNode(maxValues)
         data.forEach(d => {
-            let leaf = search(root, d)
-            insert(leaf, d)
+            let maybeNewRoot = insert(root, d)
+            if (maybeNewRoot){
+                let [value, child] = maybeNewRoot
+                root = createNode(maxValues, [value], [root, child])
+            }
         })
+        console.log(root)
     }
     return <div>
-        <input ref={inputRef} type="number"/><button onClick={onButtonClick}>click me</button>
+        <input ref={inputRef} type="number"/><button onClick={onButtonClickAdd}>add</button><button onClick={onButtonClickRemove}>remove</button>
         <div style={{width: 1300, height: 500, display:"flex", backgroundColor: "darkcyan"}}>
             {arrangeNodes()}
         </div>
